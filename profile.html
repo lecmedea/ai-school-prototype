@@ -1,0 +1,51 @@
+<!doctype html>
+<html lang="ru">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Мой профиль - ai school</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <div class="app-shell">
+    <aside class="sidebar" data-sidebar></aside>
+    <main class="content">
+      <header class="topbar">
+        <div class="tool-row"><button class="tool-btn">Анкета</button><button class="tool-btn">Прогресс</button><button class="tool-btn">Мои промпты</button><button class="tool-btn">Сообщество</button></div>
+        <div class="tool-row"><button class="ghost-btn" data-large-toggle>Крупный текст</button><button class="icon-btn" data-theme-toggle></button></div>
+      </header>
+      <div class="page">
+        <section class="section">
+          <div class="section-head">
+            <div>
+              <h1>Мой профиль</h1>
+              <p>Анкета пользователя станет основой небольшой социальной сети внутри агрегатора: интересы, цели, уровень навыка, прогресс и публичные достижения.</p>
+            </div>
+          </div>
+          <div class="two-col">
+            <div class="form-card">
+              <h3>Личные данные</h3>
+              <div class="form-grid">
+                <label><span class="field-label">Имя</span><input placeholder="Например: Алексей"></label>
+                <label><span class="field-label">Город</span><input placeholder="Москва"></label>
+                <label><span class="field-label">Почта</span><input placeholder="name@example.com"></label>
+                <label><span class="field-label">О себе</span><textarea placeholder="Чему хочу научиться и для каких задач использую нейросети"></textarea></label>
+              </div>
+            </div>
+            <div class="form-card">
+              <h3>AI-портрет</h3>
+              <div class="form-grid">
+                <label><span class="field-label">Уровень</span><select><option>Новичок</option><option>Базовый пользователь</option><option>Опытный пользователь</option></select></label>
+                <label><span class="field-label">Главная цель</span><select><option>Работа с текстом</option><option>Картинки и дизайн</option><option>Видео</option><option>Звук</option><option>ИИ-агенты</option></select></label>
+                <label><span class="field-label">Публичный статус</span><input placeholder="Например: изучаю нейросети для работы"></label>
+                <label><span class="field-label">Любимые инструменты</span><textarea placeholder="ChatGPT, Qwen, Runway..."></textarea></label>
+              </div>
+            </div>
+          </div>
+        </section>
+      </div>
+    </main>
+  </div>
+  <script src="app.js"></script>
+</body>
+</html>

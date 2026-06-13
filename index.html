@@ -1,0 +1,91 @@
+<!doctype html>
+<html lang="ru">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Рабочее окно - ai school</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <div class="app-shell">
+    <aside class="sidebar" data-sidebar></aside>
+    <main class="content">
+      <header class="topbar">
+        <div class="tool-row" aria-label="Инструменты">
+          <button class="tool-btn">Модель: помощник</button>
+          <button class="tool-btn">Формат: пошагово</button>
+          <button class="tool-btn">Шаблоны</button>
+          <button class="tool-btn">История</button>
+          <button class="tool-btn">Экспорт</button>
+        </div>
+        <div class="tool-row">
+          <button class="ghost-btn" data-simple-toggle>Простой режим</button>
+          <button class="ghost-btn" data-large-toggle>Крупный текст</button>
+          <button class="icon-btn" data-theme-toggle></button>
+        </div>
+      </header>
+      <div class="page">
+        <section class="workspace" aria-label="Два окна нейросетей">
+          <div class="panel">
+            <div class="panel-head">
+              <div class="panel-title">
+                <h1>Основное окно</h1>
+                <p>Здесь пользователь выполняет задачу: пишет текст, создает изображение, видео, звук или запускает агента.</p>
+              </div>
+              <button class="primary-btn">Запустить</button>
+            </div>
+            <div class="coach-mark simple-only">
+              Сначала выберите цель. Потом напишите обычными словами, что нужно получить. Правое окно поможет улучшить запрос.
+            </div>
+            <div class="composer">
+              <label>
+                <span class="field-label"><span>Что нужно сделать</span><span>можно писать как человеку</span></span>
+                <textarea id="mainPrompt" class="prompt-box" placeholder="Например: Объясни, как пользоваться ChatGPT, простыми словами для человека, который редко работает за компьютером."></textarea>
+              </label>
+              <div class="quick-actions">
+                <button class="chip" data-target="#mainPrompt" data-insert="Объясни простыми словами, без сложных терминов, как выполнить эту задачу: ">Объяснить проще</button>
+                <button class="chip" data-target="#mainPrompt" data-insert="Сделай пошаговую инструкцию для новичка 40+ по теме: ">Пошаговая инструкция</button>
+                <button class="chip" data-target="#mainPrompt" data-insert="Проверь мой текст, исправь ошибки и объясни, что было изменено: ">Проверить текст</button>
+                <button class="chip" data-target="#mainPrompt" data-insert="Создай картинку по описанию, стиль спокойный и понятный: ">Создать изображение</button>
+              </div>
+              <label>
+                <span class="field-label"><span>Ответ нейросети</span><span>демо-поле</span></span>
+                <textarea class="answer-box" placeholder="Здесь появится результат. В будущем сюда подключаются API выбранной нейросети."></textarea>
+              </label>
+            </div>
+          </div>
+          <aside class="panel">
+            <div class="panel-head">
+              <div class="panel-title">
+                <h2>Помощник рядом</h2>
+                <p>Узкое окно справа объясняет, что делать, и может подготовить запрос для основного окна.</p>
+              </div>
+            </div>
+            <div class="assistant-feed">
+              <div class="message">
+                <strong>Подсказка</strong>
+                Если человек растерялся, помощник предлагает следующий маленький шаг и объясняет экран без сложных слов.
+              </div>
+              <div class="chips">
+                <button class="chip" data-helper="start">С чего начать?</button>
+                <button class="chip" data-helper="file">Как загрузить файл?</button>
+                <button class="chip" data-helper="prompt">Как написать запрос?</button>
+                <button class="chip" data-helper="safety">Что нельзя отправлять?</button>
+              </div>
+              <label>
+                <span class="field-label"><span>Ответ помощника</span><span>встроенная поддержка</span></span>
+                <textarea id="helperAnswer" class="helper-box" placeholder="Нажмите подсказку выше или спросите помощника своими словами."></textarea>
+              </label>
+              <label>
+                <span class="field-label"><span>Вопрос помощнику</span><span>без сложных терминов</span></span>
+                <textarea class="helper-box" placeholder="Например: Я не понимаю, чем отличается текстовая нейросеть от графической."></textarea>
+              </label>
+            </div>
+          </aside>
+        </section>
+      </div>
+    </main>
+  </div>
+  <script src="app.js"></script>
+</body>
+</html>

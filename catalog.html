@@ -1,0 +1,49 @@
+<!doctype html>
+<html lang="ru">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Каталог AI - ai school</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <div class="app-shell">
+    <aside class="sidebar" data-sidebar></aside>
+    <main class="content">
+      <header class="topbar">
+        <div class="tool-row">
+          <button class="tool-btn">Сравнить</button>
+          <button class="tool-btn">API-статус</button>
+          <button class="tool-btn">Избранное</button>
+          <button class="tool-btn">Стоимость</button>
+        </div>
+        <div class="tool-row">
+          <button class="ghost-btn" data-large-toggle>Крупный текст</button>
+          <button class="icon-btn" data-theme-toggle></button>
+        </div>
+      </header>
+      <div class="page">
+        <section class="section">
+          <div class="section-head">
+            <div>
+              <h1>Каталог нейросетей</h1>
+              <p>Сначала видны 5 направлений. Нажмите стрелку блока, чтобы раскрыть список доступных нейросетей. В режиме новичка при наведении на карточку появляется простое объяснение.</p>
+            </div>
+          </div>
+          <div class="catalog-toolbar">
+            <input id="searchTools" type="search" placeholder="Поиск: ChatGPT, Qwen, видео...">
+            <select id="regionFilter" aria-label="Фильтр по стране">
+              <option value="all">Все страны</option>
+              <option>США</option>
+              <option>Китай</option>
+              <option>Европа</option>
+            </select>
+          </div>
+          <div id="catalog"></div>
+        </section>
+      </div>
+    </main>
+  </div>
+  <script src="app.js"></script>
+</body>
+</html>

@@ -1,0 +1,46 @@
+<!doctype html>
+<html lang="ru">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Архитектура - ai school</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <div class="app-shell">
+    <aside class="sidebar" data-sidebar></aside>
+    <main class="content">
+      <header class="topbar">
+        <div class="tool-row">
+          <button class="tool-btn">MVP</button>
+          <button class="tool-btn">API</button>
+          <button class="tool-btn">Платежи</button>
+          <button class="tool-btn">Масштаб</button>
+        </div>
+        <div class="tool-row">
+          <button class="ghost-btn" data-large-toggle>Крупный текст</button>
+          <button class="icon-btn" data-theme-toggle></button>
+        </div>
+      </header>
+      <div class="page">
+        <section class="section">
+          <div class="section-head">
+            <div>
+              <h1>Техническая логика платформы</h1>
+              <p>Пользователь видит простые сценарии, а система выбирает провайдера, тариф, запасной API и уровень объяснений. Это важно для будущего роста до агрегатора уровня крупных AI-платформ.</p>
+            </div>
+          </div>
+          <div class="roadmap">
+            <div class="roadmap-item"><div><h3>Каталог провайдеров</h3><p>Единая таблица: направление, страна, API, стоимость, лимиты, качество, статус, юридические ограничения.</p></div></div>
+            <div class="roadmap-item"><div><h3>Оркестратор задач</h3><p>Пользователь выбирает задачу, а система сама отправляет запрос в подходящую модель и переключается на запасную при ошибке.</p></div></div>
+            <div class="roadmap-item"><div><h3>Помощник интерфейса</h3><p>Правое окно получает контекст текущего экрана и помогает прямо по текущей задаче пользователя.</p></div></div>
+            <div class="roadmap-item"><div><h3>Учебный профиль</h3><p>Хранит прогресс, словарь непонятных терминов, любимые шаблоны, историю ошибок и уровень объяснений.</p></div></div>
+            <div class="roadmap-item"><div><h3>Боты как клиенты</h3><p>Telegram и MAX используют тот же backend, что и сайт: единая авторизация, лимиты, биллинг, история и безопасность.</p></div></div>
+          </div>
+        </section>
+      </div>
+    </main>
+  </div>
+  <script src="app.js"></script>
+</body>
+</html>

@@ -1,0 +1,45 @@
+<!doctype html>
+<html lang="ru">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Настройки - ai school</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <div class="app-shell">
+    <aside class="sidebar" data-sidebar></aside>
+    <main class="content">
+      <header class="topbar">
+        <div class="tool-row"><button class="tool-btn">Аккаунт</button><button class="tool-btn">Персонализация</button><button class="tool-btn">Данные</button><button class="tool-btn">Подписка</button><button class="tool-btn">Безопасность</button></div>
+        <div class="tool-row"><button class="ghost-btn" data-large-toggle>Крупный текст</button><button class="icon-btn" data-theme-toggle></button></div>
+      </header>
+      <div class="page">
+        <section class="section">
+          <div class="section-head">
+            <div>
+              <h1>Настройки</h1>
+              <p>Разделы по логике ChatGPT и Higgsfield: аккаунт, персонализация, данные, тарифы, безопасность, подключенные сервисы и режим советчика.</p>
+            </div>
+          </div>
+          <div class="settings-list">
+            <div class="setting-row"><div><h3>Профиль и почта</h3><p>Имя, email, аватар, язык интерфейса и регион.</p></div><button class="ghost-btn">Изменить</button></div>
+            <div class="setting-row"><div><h3>Персонализация</h3><p>Тема, крупный текст, простой режим, предпочитаемый формат ответов.</p></div><button class="ghost-btn" data-simple-toggle>Простой режим</button></div>
+            <div class="setting-row"><div><h3>Режим советчика</h3><p>Настраивает количество подсказок и глубину объяснений в интерфейсе.</p></div>
+              <div class="radio-group">
+                <label class="radio-card"><input type="radio" name="advisor" value="beginner" data-advisor-mode><span><strong>Нулевые знания</strong><span>Подробные подсказки и простые описания нейросетей при наведении.</span></span></label>
+                <label class="radio-card"><input type="radio" name="advisor" value="basic" data-advisor-mode><span><strong>Базовый пользователь</strong><span>Для офисного сотрудника, который умеет работать в Excel и хочет меньше пояснений.</span></span></label>
+                <label class="radio-card"><input type="radio" name="advisor" value="advanced" data-advisor-mode><span><strong>Опытный пользователь</strong><span>Минимум подсказок, быстрый интерфейс, акцент на инструменты.</span></span></label>
+              </div>
+            </div>
+            <div class="setting-row"><div><h3>Подключенные AI-сервисы</h3><p>API-ключи, лимиты, провайдеры по умолчанию и запасные модели.</p></div><button class="ghost-btn">Управлять</button></div>
+            <div class="setting-row"><div><h3>Данные и история</h3><p>История чатов, экспорт, удаление данных, приватность учебного профиля.</p></div><button class="ghost-btn">Открыть</button></div>
+            <div class="setting-row"><div><h3>Подписка и платежи</h3><p>Тариф, баланс, расходы по моделям, счета и лимиты.</p></div><button class="ghost-btn">Платежи</button></div>
+          </div>
+        </section>
+      </div>
+    </main>
+  </div>
+  <script src="app.js"></script>
+</body>
+</html>
