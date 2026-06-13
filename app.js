@@ -1,5 +1,6 @@
 const root = document.documentElement;
 const transparentPixel = "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///ywAAAAAAQABAAACAUwAOw==";
+const surveyUrl = "https://docs.google.com/forms/d/e/PASTE_FORM_ID/viewform";
 
 const currentPage = location.pathname.split("/").pop() || "index.html";
 
@@ -12,7 +13,9 @@ const navItems = [
   { href: "max-bot.html", label: "MAX бот", icon: "message" },
   { href: "prompts.html", label: "Библиотека промптов", icon: "library" },
   { href: "terminology.html", label: "AI-терминология", icon: "book" },
+  { href: "payment.html", label: "Оплата", icon: "wallet" },
   { href: "settings.html", label: "Настройки", icon: "settings" },
+  { href: surveyUrl, label: "Опрос", icon: "survey", survey: true, external: true },
   { href: "roadmap.html", label: "Roadmap", icon: "flag", roadmap: true }
 ];
 
@@ -26,7 +29,9 @@ const icons = {
   send: '<svg viewBox="0 0 24 24"><path d="M21 4 3 11l7 3 3 7 8-17Z"/><path d="m10 14 4-4"/></svg>',
   message: '<svg viewBox="0 0 24 24"><path d="M4 5h16v11H9l-5 4V5Z"/><path d="M8 9h8M8 12h6"/></svg>',
   layers: '<svg viewBox="0 0 24 24"><path d="m12 3 9 5-9 5-9-5 9-5Z"/><path d="m3 12 9 5 9-5M3 16l9 5 9-5"/></svg>',
+  wallet: '<svg viewBox="0 0 24 24"><path d="M4 7h15a2 2 0 0 1 2 2v9H5a2 2 0 0 1-2-2V6a2 2 0 0 0 2 2"/><path d="M16 13h3M6 7l9-3 1 3"/></svg>',
   settings: '<svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M12 2v4M12 18v4M2 12h4M18 12h4M4.9 4.9l2.8 2.8M16.3 16.3l2.8 2.8M19.1 4.9l-2.8 2.8M7.7 16.3l-2.8 2.8"/></svg>',
+  survey: '<svg viewBox="0 0 24 24"><path d="M6 3h12v18H6V3Z"/><path d="M9 8h6M9 12h6M9 16h3"/><path d="M8 3.5h8"/></svg>',
   flag: '<svg viewBox="0 0 24 24"><path d="M5 21V4h11l1 4h-9v7h11l-1-4"/><path d="M5 4h3"/></svg>'
 };
 
@@ -276,7 +281,7 @@ function renderSidebar() {
     </a>
     <nav class="nav" aria-label="Главное меню">
       ${navItems.map((item) => `
-        <a class="${currentPage === item.href ? "active" : ""} ${item.roadmap ? "roadmap-link" : ""}" href="${item.href}">
+        <a class="${currentPage === item.href ? "active" : ""} ${item.roadmap ? "roadmap-link" : ""} ${item.survey ? "survey-link" : ""}" href="${item.href}" ${item.external ? 'target="_blank" rel="noopener"' : ""}>
           <span class="nav-left">${icons[item.icon]}<span>${item.label}</span></span>
         </a>
       `).join("")}
@@ -404,7 +409,7 @@ function renderCatalog() {
       const items = list.map(([name, country, , note, beginner]) => {
         const countryClass = country === "США" ? "us" : country === "Китай" ? "cn" : country === "Россия" ? "ru" : "";
         return `<button class="tool-pill" type="button" data-beginner="${escapeAttr(beginner)}">
-          <strong>${name}</strong>
+          <span class="tool-title">${renderToolLogo(name)}<strong>${name}</strong></span>
           <span>${note}</span>
           <span class="meta"><span class="tag ${countryClass}">${country}</span></span>
         </button>`;
@@ -425,6 +430,123 @@ function renderCatalog() {
 
 function escapeAttr(value) {
   return String(value).replaceAll("&", "&amp;").replaceAll('"', "&quot;").replaceAll("<", "&lt;").replaceAll(">", "&gt;");
+}
+
+function renderToolLogo(name) {
+  const domain = toolLogoDomain(name);
+  const initials = getInitials(name);
+  const image = domain
+    ? `<img class="tool-logo-img" src="https://www.google.com/s2/favicons?domain=${escapeAttr(domain)}&sz=64" alt="" loading="lazy" onload="this.closest('.tool-logo').classList.add('has-image')" onerror="this.remove()">`
+    : "";
+  return `<span class="tool-logo" aria-hidden="true">${image}<span class="tool-initials">${escapeAttr(initials)}</span></span>`;
+}
+
+function getInitials(name) {
+  return name
+    .replaceAll("/", " ")
+    .replaceAll("-", " ")
+    .split(/\s+/)
+    .filter(Boolean)
+    .slice(0, 2)
+    .map((part) => part[0])
+    .join("")
+    .toUpperCase();
+}
+
+function toolLogoDomain(name) {
+  const value = name.toLowerCase();
+  const domains = [
+    ["chatgpt", "openai.com"],
+    ["openai", "openai.com"],
+    ["sora", "openai.com"],
+    ["dall", "openai.com"],
+    ["claude", "anthropic.com"],
+    ["gemini", "gemini.google.com"],
+    ["google", "google.com"],
+    ["imagen", "deepmind.google"],
+    ["veo", "deepmind.google"],
+    ["grok", "x.ai"],
+    ["perplexity", "perplexity.ai"],
+    ["llama", "ai.meta.com"],
+    ["meta", "meta.com"],
+    ["command r", "cohere.com"],
+    ["mistral", "mistral.ai"],
+    ["deepseek", "deepseek.com"],
+    ["qwen", "qwen.ai"],
+    ["ernie", "baidu.com"],
+    ["baidu", "baidu.com"],
+    ["hunyuan", "hunyuan.tencent.com"],
+    ["tencent", "tencent.com"],
+    ["kimi", "kimi.moonshot.cn"],
+    ["moonshot", "moonshot.cn"],
+    ["glm", "z.ai"],
+    ["z.ai", "z.ai"],
+    ["minimax", "minimax.io"],
+    ["doubao", "doubao.com"],
+    ["baichuan", "baichuan-ai.com"],
+    ["sensenova", "sensetime.com"],
+    ["sparkdesk", "xinghuo.xfyun.cn"],
+    ["stepfun", "stepfun.com"],
+    ["internlm", "internlm.org"],
+    ["yandex", "yandex.ru"],
+    ["яндекс", "yandex.ru"],
+    ["giga", "developers.sber.ru"],
+    ["sber", "sber.ru"],
+    ["салют", "developers.sber.ru"],
+    ["salute", "developers.sber.ru"],
+    ["aithoria", "aithoria.ai"],
+    ["gerwin", "gerwin.io"],
+    ["turbotext", "turbotext.ru"],
+    ["midjourney", "midjourney.com"],
+    ["adobe", "adobe.com"],
+    ["firefly", "firefly.adobe.com"],
+    ["leonardo", "leonardo.ai"],
+    ["ideogram", "ideogram.ai"],
+    ["recraft", "recraft.ai"],
+    ["higgsfield", "higgsfield.ai"],
+    ["tongyi", "tongyi.aliyun.com"],
+    ["alibaba", "alibabacloud.com"],
+    ["kling", "klingai.com"],
+    ["kolors", "kwai.com"],
+    ["jimeng", "jimeng.jianying.com"],
+    ["liblib", "liblib.art"],
+    ["seaart", "seaart.ai"],
+    ["kandinsky", "fusionbrain.ai"],
+    ["шедеврум", "shedevrum.ai"],
+    ["fusion brain", "fusionbrain.ai"],
+    ["artgeneration", "artgeneration.me"],
+    ["runway", "runwayml.com"],
+    ["pika", "pika.art"],
+    ["luma", "lumalabs.ai"],
+    ["hailuo", "hailuoai.video"],
+    ["vidu", "vidu.studio"],
+    ["pixverse", "pixverse.ai"],
+    ["visper", "visper.tech"],
+    ["movavi", "movavi.com"],
+    ["elevenlabs", "elevenlabs.io"],
+    ["suno", "suno.com"],
+    ["udio", "udio.com"],
+    ["audiocraft", "ai.meta.com"],
+    ["cosyvoice", "alibabacloud.com"],
+    ["iflytek", "xfyun.cn"],
+    ["bytedance", "bytedance.com"],
+    ["seed audio", "bytedance.com"],
+    ["speechkit", "cloud.yandex.ru"],
+    ["звук", "zvuk.com"],
+    ["voximplant", "voximplant.com"],
+    ["langgraph", "langchain.com"],
+    ["crewai", "crewai.com"],
+    ["autogpt", "agpt.co"],
+    ["devin", "cognition.ai"],
+    ["replit", "replit.com"],
+    ["cursor", "cursor.com"],
+    ["coze", "coze.com"],
+    ["dify", "dify.ai"],
+    ["manus", "manus.im"],
+    ["aimylogic", "aimylogic.com"],
+    ["алиса", "alice.yandex.ru"]
+  ];
+  return domains.find(([key]) => value.includes(key))?.[1] || "";
 }
 
 function bindHelper() {
