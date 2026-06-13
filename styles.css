@@ -103,8 +103,8 @@ svg {
 }
 
 .brand img {
-  width: 72px;
-  height: 72px;
+  width: 118px;
+  height: 78px;
   object-fit: contain;
 }
 
@@ -574,6 +574,11 @@ a:focus-visible {
   color: var(--ok);
 }
 
+.tag.ru {
+  color: var(--strong);
+  border-color: var(--strong);
+}
+
 .learning-road {
   position: relative;
   display: grid;
@@ -733,6 +738,23 @@ a:focus-visible {
   gap: 12px;
 }
 
+.profile-photo-block {
+  display: grid;
+  gap: 12px;
+}
+
+.photo-preview {
+  width: 132px;
+  height: 132px;
+  border: 1px solid var(--line);
+  border-radius: 50%;
+  background: var(--bg);
+  display: grid;
+  place-items: center;
+  color: var(--muted);
+  font-size: 14px;
+}
+
 .footer-note {
   margin-top: 20px;
   border-top: 1px solid var(--line);
@@ -804,8 +826,8 @@ a:focus-visible {
   }
 
   .brand img {
-    width: 58px;
-    height: 58px;
+    width: 96px;
+    height: 64px;
   }
 
   .nav,
