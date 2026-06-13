@@ -3,6 +3,7 @@ const transparentPixel = "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///ywAAAAA
 const surveyUrl = "https://docs.google.com/forms/d/e/1FAIpQLSdUu3UJhadGg0RhgjeJwOiPFABn2hnbUCYSqdb7O34ftx3aGg/viewform";
 
 const currentPage = location.pathname.split("/").pop() || "index.html";
+const isWorkspacePage = currentPage === "index.html";
 
 const navItems = [
   { href: "index.html", label: "Рабочее окно", icon: "chat" },
@@ -263,13 +264,14 @@ function setupPrefs() {
   const savedLarge = localStorage.getItem("ai-school-large");
   const savedSimple = localStorage.getItem("ai-school-simple");
   const savedCompact = localStorage.getItem("ai-school-sidebar-compact");
-  const savedHidden = localStorage.getItem("ai-school-sidebar-hidden");
+  const savedHelperCollapsed = localStorage.getItem("ai-school-helper-collapsed");
   const advisor = localStorage.getItem("ai-school-advisor") || "beginner";
   if (savedTheme === "dark") root.classList.add("dark");
   if (savedLarge === "true") root.classList.add("large");
   if (savedSimple === "true") root.classList.add("simple");
   if (savedCompact === "true") root.classList.add("sidebar-compact");
-  if (savedHidden === "true") root.classList.add("sidebar-hidden");
+  root.classList.remove("sidebar-hidden");
+  if (isWorkspacePage && savedHelperCollapsed === "true") root.classList.add("helper-collapsed");
   root.dataset.advisor = advisor;
 }
 
@@ -305,26 +307,29 @@ function renderLayoutControls() {
     compact.innerHTML = '<span aria-hidden="true">‹</span>';
     document.body.append(compact);
   }
-  if (!document.querySelector("[data-sidebar-hidden-toggle]")) {
-    const hidden = document.createElement("button");
-    hidden.className = "sidebar-round-toggle sidebar-hidden-toggle";
-    hidden.type = "button";
-    hidden.setAttribute("data-sidebar-hidden-toggle", "");
-    hidden.setAttribute("aria-label", "Скрыть боковое меню");
-    hidden.innerHTML = '<span aria-hidden="true">‹</span>';
-    document.body.append(hidden);
-  }
   updateSidebarToggleIcons();
+  updateHelperToggleIcon();
 }
 
 function updateSidebarToggleIcons() {
   const compact = document.querySelector("[data-sidebar-compact-toggle]");
-  const hidden = document.querySelector("[data-sidebar-hidden-toggle]");
   if (compact) {
     compact.innerHTML = root.classList.contains("sidebar-compact") ? '<span aria-hidden="true">›</span>' : '<span aria-hidden="true">‹</span>';
   }
-  if (hidden) {
-    hidden.innerHTML = root.classList.contains("sidebar-hidden") ? '<span aria-hidden="true">›</span>' : '<span aria-hidden="true">‹</span>';
+}
+
+function updateHelperToggleIcon() {
+  const helperToggle = document.querySelector("[data-helper-collapse]");
+  if (!helperToggle) return;
+  const collapsed = root.classList.contains("helper-collapsed");
+  helperToggle.innerHTML = collapsed ? '<span aria-hidden="true">‹</span>' : '<span aria-hidden="true">›</span>';
+  helperToggle.setAttribute("aria-label", collapsed ? "Развернуть помощника" : "Свернуть помощника");
+  helperToggle.setAttribute("title", collapsed ? "Развернуть помощника" : "Свернуть помощника");
+}
+
+function resetLegacySidebarState() {
+  if (localStorage.getItem("ai-school-sidebar-hidden") === "true") {
+    localStorage.setItem("ai-school-sidebar-hidden", "false");
   }
 }
 
@@ -411,7 +416,6 @@ function bindControls() {
 
   document.querySelectorAll("[data-sidebar-compact-toggle]").forEach((button) => {
     button.addEventListener("click", () => {
-      root.classList.remove("sidebar-hidden");
       root.classList.toggle("sidebar-compact");
       localStorage.setItem("ai-school-sidebar-compact", String(root.classList.contains("sidebar-compact")));
       localStorage.setItem("ai-school-sidebar-hidden", "false");
@@ -419,13 +423,11 @@ function bindControls() {
     });
   });
 
-  document.querySelectorAll("[data-sidebar-hidden-toggle]").forEach((button) => {
+  document.querySelectorAll("[data-helper-collapse]").forEach((button) => {
     button.addEventListener("click", () => {
-      root.classList.remove("sidebar-compact");
-      root.classList.toggle("sidebar-hidden");
-      localStorage.setItem("ai-school-sidebar-hidden", String(root.classList.contains("sidebar-hidden")));
-      localStorage.setItem("ai-school-sidebar-compact", "false");
-      updateSidebarToggleIcons();
+      root.classList.toggle("helper-collapsed");
+      localStorage.setItem("ai-school-helper-collapsed", String(root.classList.contains("helper-collapsed")));
+      updateHelperToggleIcon();
     });
   });
 
@@ -702,6 +704,7 @@ function bindHelper() {
 }
 
 setupPrefs();
+resetLegacySidebarState();
 renderSidebar();
 renderLayoutControls();
 renderMobileMenuButton();
