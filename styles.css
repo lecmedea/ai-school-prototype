@@ -289,12 +289,12 @@ svg {
 
 .sidebar-compact-toggle {
   top: 8px;
-  left: calc(var(--sidebar) - 15px);
+  left: calc(var(--sidebar) - 10px);
   transition: left .22s ease, top .22s ease, transform .18s ease;
 }
 
 :root.sidebar-compact .sidebar-compact-toggle {
-  left: calc(var(--sidebar-compact) - 15px);
+  left: calc(var(--sidebar-compact) - 10px);
 }
 
 .intro-modal {
