@@ -1,17 +1,17 @@
 const root = document.documentElement;
+const transparentPixel = "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///ywAAAAAAQABAAACAUwAOw==";
 
 const currentPage = location.pathname.split("/").pop() || "index.html";
 
 const navItems = [
   { href: "index.html", label: "Рабочее окно", icon: "chat" },
   { href: "profile.html", label: "Мой профиль", icon: "user" },
-  { href: "prompts.html", label: "Библиотека промптов", icon: "library" },
-  { href: "terminology.html", label: "AI-терминология", icon: "book" },
-  { href: "catalog.html", label: "Каталог AI", icon: "grid" },
   { href: "academy.html", label: "Обучение", icon: "route" },
+  { href: "catalog.html", label: "Каталог AI", icon: "grid" },
   { href: "telegram-bot.html", label: "Telegram бот", icon: "send" },
   { href: "max-bot.html", label: "MAX бот", icon: "message" },
-  { href: "strategy.html", label: "Архитектура", icon: "layers" },
+  { href: "prompts.html", label: "Библиотека промптов", icon: "library" },
+  { href: "terminology.html", label: "AI-терминология", icon: "book" },
   { href: "settings.html", label: "Настройки", icon: "settings" },
   { href: "roadmap.html", label: "Roadmap", icon: "flag", roadmap: true }
 ];
@@ -157,6 +157,12 @@ const tools = [
   ["StepFun", "Китай", "Текстовые", "Китайские мультимодальные модели.", "Перспективный поставщик для текста и изображения."],
   ["Yi", "Китай", "Текстовые", "Модели 01.AI.", "Открытые модели, которые можно рассматривать для гибких интеграций."],
   ["InternLM", "Китай", "Текстовые", "Открытая модель Shanghai AI Lab.", "Подходит для экспериментов и локальных сценариев."],
+  ["YandexGPT", "Россия", "Текстовые", "Текстовые модели Яндекса для чата, поиска, документов и бизнес-задач.", "Российская нейросеть, которая помогает писать, объяснять, обобщать и работать с русским языком."],
+  ["GigaChat", "Россия", "Текстовые", "Мультимодальная модель Сбера для текста, кода, изображений и бизнес-сценариев.", "Российский AI-помощник для текста, диалогов, документов и будущих интеграций через API."],
+  ["Нейро от Яндекса", "Россия", "Текстовые", "Пользовательский AI-помощник Яндекса для поиска, объяснений и быстрых задач.", "Помогает находить ответы и объяснять темы простыми словами внутри экосистемы Яндекса."],
+  ["Aithoria", "Россия", "Текстовые", "Российская AI-платформа для генерации текстов, изображений и рабочих шаблонов.", "Подходит для пользовательских задач, когда нужен простой вход через готовые сценарии."],
+  ["Gerwin AI", "Россия", "Текстовые", "Сервис для маркетинговых текстов, описаний, статей и контент-задач.", "Удобен для рекламы, постов, карточек товаров и быстрых текстовых шаблонов."],
+  ["TurboText", "Россия", "Текстовые", "Платформа для генерации и проверки текстов.", "Помогает писать тексты, идеи, описания и варианты формулировок на русском."],
 
   ["DALL-E / OpenAI Images", "США", "Графические", "Генерация и редактирование изображений.", "Создает картинки по описанию и помогает быстро делать визуальные черновики."],
   ["Midjourney", "США", "Графические", "Популярная система для красивых изображений.", "Хороша для выразительных картинок, стилей и идей."],
@@ -175,6 +181,11 @@ const tools = [
   ["Jimeng AI", "Китай", "Графические", "Инструменты ByteDance для изображения.", "Может быть интересен для контента и соцсетей."],
   ["LiblibAI", "Китай", "Графические", "Платформа генерации изображений.", "Полезна как пользовательский визуальный инструмент."],
   ["SeaArt", "Китай", "Графические", "Генерация изображений и стили.", "Подходит для творческих картинок и персонажей."],
+  ["Kandinsky", "Россия", "Графические", "Российская модель Сбера для генерации и редактирования изображений.", "Создает картинки по описанию и хорошо подходит для русскоязычных пользователей."],
+  ["Шедеврум", "Россия", "Графические", "Приложение Яндекса для генерации изображений и короткого визуального контента.", "Простой способ сделать картинку по русскому описанию без сложных настроек."],
+  ["Fusion Brain", "Россия", "Графические", "Платформа генерации изображений на базе Kandinsky.", "Подходит для быстрых визуальных экспериментов и API-интеграций."],
+  ["ArtGeneration", "Россия", "Графические", "Российский сервис для AI-изображений и творческих задач.", "Можно использовать как дополнительный инструмент для генерации картинок."],
+  ["ruDALL-E / Kandinsky legacy", "Россия", "Графические", "Российские open-source и исследовательские модели генерации изображений.", "Полезно как историческая и экспериментальная база для локальных решений."],
 
   ["Runway", "США", "Видео", "Генерация и редактирование видео.", "Подходит для роликов, рекламы и творческих видео-задач."],
   ["Pika", "США", "Видео", "Короткие AI-ролики по описанию.", "Удобна для простого входа в генерацию видео."],
@@ -191,6 +202,10 @@ const tools = [
   ["Jimeng Video", "Китай", "Видео", "Видео от ByteDance.", "Интересен для контента и социальных форматов."],
   ["Tencent Hunyuan Video", "Китай", "Видео", "Видео-модели Tencent.", "Крупный китайский провайдер для видео-направления."],
   ["Baidu MuseSteamer", "Китай", "Видео", "Видео-инструменты Baidu.", "Стоит отслеживать для китайского рынка."],
+  ["Шедеврум Видео", "Россия", "Видео", "Видео-направление Яндекса в рамках визуальных AI-инструментов.", "Подходит для простого входа в русскоязычный AI-видео контент, доступность API нужно проверять."],
+  ["Kandinsky Video", "Россия", "Видео", "Видео-направление экосистемы Kandinsky/Сбер.", "Перспективный российский инструмент для генерации коротких видео, статус API нужно проверять."],
+  ["Visper", "Россия", "Видео", "Российская платформа для видео с виртуальными ведущими.", "Полезна для обучающих роликов, презентаций и видеообращений."],
+  ["Movavi AI", "Россия", "Видео", "AI-функции в видеоредакторе Movavi.", "Подходит для монтажа, улучшения видео и простых пользовательских сценариев."],
 
   ["OpenAI Audio", "США", "Звук", "Речь, озвучка и распознавание.", "Помогает переводить голос в текст и создавать речь."],
   ["ElevenLabs", "США", "Звук", "Реалистичные голоса и озвучка.", "Удобен для дикторов, аудиоуроков и роликов."],
@@ -206,6 +221,10 @@ const tools = [
   ["iFlytek Spark Speech", "Китай", "Звук", "Речевые технологии iFlytek.", "Крупный игрок в распознавании и синтезе речи."],
   ["ByteDance Seed Audio", "Китай", "Звук", "Аудио-модели ByteDance.", "Перспективно для голоса и музыки."],
   ["Tencent Hunyuan Voice", "Китай", "Звук", "Голосовые функции Tencent.", "Дополнительный китайский провайдер звука."],
+  ["Yandex SpeechKit", "Россия", "Звук", "Распознавание и синтез речи от Яндекса.", "Помогает превращать голос в текст и озвучивать ответы на русском языке."],
+  ["SaluteSpeech", "Россия", "Звук", "Речевые технологии Сбера для распознавания и синтеза речи.", "Подходит для голосовых ботов, дикторов и доступного интерфейса."],
+  ["Звук AI", "Россия", "Звук", "AI-функции музыкальной экосистемы Звук.", "Перспективно для рекомендаций, музыки и аудио-сценариев, статус API нужно проверять."],
+  ["Voximplant Kit AI", "Россия", "Звук", "Голосовые боты, распознавание речи и автоматизация звонков.", "Полезен для голосовых помощников и поддержки пользователей."],
 
   ["ChatGPT Agent", "США", "ИИ-агенты", "Помощник, который может планировать и выполнять действия.", "Полезен, когда задача состоит из нескольких шагов."],
   ["Claude Computer Use", "США", "ИИ-агенты", "Работа с экраном и интерфейсами.", "Может помогать выполнять действия в программах."],
@@ -226,7 +245,12 @@ const tools = [
   ["Manus", "Китай", "ИИ-агенты", "Универсальный AI-агент.", "Полезен как ориентир для самостоятельных задач."],
   ["Baidu AgentBuilder", "Китай", "ИИ-агенты", "Создание агентов Baidu.", "Инструмент для агентных приложений в китайской экосистеме."],
   ["Tencent Yuanqi", "Китай", "ИИ-агенты", "Платформа агентов Tencent.", "Подходит для ботов и автоматизации."],
-  ["MiniMax Agent", "Китай", "ИИ-агенты", "Агентные функции MiniMax.", "Дополняет текст, голос и видео в одной экосистеме."]
+  ["MiniMax Agent", "Китай", "ИИ-агенты", "Агентные функции MiniMax.", "Дополняет текст, голос и видео в одной экосистеме."],
+  ["Yandex Cloud AI Agents", "Россия", "ИИ-агенты", "Инструменты Яндекс Облака для ассистентов и сценариев с AI.", "Можно использовать как основу для помощников, которые работают с российской инфраструктурой."],
+  ["GigaChat Assistants API", "Россия", "ИИ-агенты", "Ассистенты и агентные сценарии на базе GigaChat.", "Подходит для помощников, которые умеют работать с файлами, функциями и бизнес-логикой."],
+  ["SaluteBot", "Россия", "ИИ-агенты", "Платформа Сбера для чат-ботов и ассистентов.", "Можно использовать для сценариев поддержки, обучения и автоматизации в мессенджерах."],
+  ["Яндекс Диалоги / Алиса", "Россия", "ИИ-агенты", "Навыки и сценарии для голосового помощника Алиса.", "Подходит для голосовых сценариев и простых пользовательских помощников."],
+  ["Aimylogic", "Россия", "ИИ-агенты", "Платформа для чат-ботов и голосовых ассистентов.", "Помогает строить диалоговых помощников без сложного программирования."]
 ];
 
 function setupPrefs() {
@@ -244,6 +268,7 @@ function renderSidebar() {
   const sidebar = document.querySelector("[data-sidebar]");
   if (!sidebar) return;
   sidebar.innerHTML = `
+    <button class="mobile-menu-close" type="button" data-mobile-menu-close aria-label="Закрыть меню">×</button>
     <a class="brand" href="index.html">
       <img src="assets/promptalogoю.png" alt="ai school logo">
       <strong>ai school</strong>
@@ -259,6 +284,22 @@ function renderSidebar() {
     <div class="sidebar-note"><strong>Совет</strong><span id="randomTip"></span></div>
   `;
   rotateTip();
+}
+
+function renderMobileMenuButton() {
+  if (document.querySelector("[data-mobile-menu-toggle]")) return;
+  const button = document.createElement("button");
+  button.className = "mobile-droid-menu";
+  button.type = "button";
+  button.setAttribute("data-mobile-menu-toggle", "");
+  button.setAttribute("aria-label", "Открыть меню");
+  button.innerHTML = `<img src="${transparentPixel}" alt="" data-mobile-droid><span>Меню</span>`;
+  const overlay = document.createElement("button");
+  overlay.className = "mobile-menu-overlay";
+  overlay.type = "button";
+  overlay.setAttribute("data-mobile-menu-close", "");
+  overlay.setAttribute("aria-label", "Закрыть меню");
+  document.body.append(button, overlay);
 }
 
 function rotateTip() {
@@ -301,13 +342,30 @@ function bindControls() {
     });
   });
 
-  document.querySelectorAll("[data-insert]").forEach((button) => {
-    button.addEventListener("click", () => {
+  document.addEventListener("click", (event) => {
+    const button = event.target.closest("[data-insert]");
+    if (!button) return;
       const target = document.querySelector(button.dataset.target || "#mainPrompt");
       if (!target) return;
       target.value = button.dataset.insert;
       target.focus();
-    });
+      button.closest(".prompt-menu")?.removeAttribute("open");
+  });
+
+  document.querySelectorAll("[data-mobile-menu-toggle]").forEach((button) => {
+    button.addEventListener("click", () => root.classList.add("menu-open"));
+  });
+
+  document.querySelectorAll("[data-mobile-menu-close]").forEach((button) => {
+    button.addEventListener("click", () => root.classList.remove("menu-open"));
+  });
+
+  document.querySelectorAll(".nav a").forEach((link) => {
+    link.addEventListener("click", () => root.classList.remove("menu-open"));
+  });
+
+  document.addEventListener("keydown", (event) => {
+    if (event.key === "Escape") root.classList.remove("menu-open");
   });
 
   document.querySelectorAll("[data-advisor-mode]").forEach((input) => {
@@ -344,7 +402,7 @@ function renderCatalog() {
         return toolCat === cat && (region === "all" || country === region) && haystack.includes(query);
       });
       const items = list.map(([name, country, , note, beginner]) => {
-        const countryClass = country === "США" ? "us" : country === "Китай" ? "cn" : "";
+        const countryClass = country === "США" ? "us" : country === "Китай" ? "cn" : country === "Россия" ? "ru" : "";
         return `<button class="tool-pill" type="button" data-beginner="${escapeAttr(beginner)}">
           <strong>${name}</strong>
           <span>${note}</span>
@@ -386,6 +444,41 @@ function bindHelper() {
 
 setupPrefs();
 renderSidebar();
+renderMobileMenuButton();
 bindControls();
 renderCatalog();
 bindHelper();
+loadDroidFrames(setupDroid);
+
+function loadDroidFrames(callback) {
+  if (window.droidFrames?.length) {
+    callback();
+    return;
+  }
+  const script = document.createElement("script");
+  script.src = "droid-frames.js";
+  script.onload = callback;
+  script.onerror = callback;
+  document.head.appendChild(script);
+}
+
+function setupDroid() {
+  const frames = window.droidFrames?.length ? window.droidFrames : ["assets/droid.png"];
+  const images = document.querySelectorAll("[data-droid-face], [data-mobile-droid]");
+  if (!images.length) return;
+  let index = 0;
+  images.forEach((image) => {
+    image.src = frames[index];
+  });
+  const changeFrame = () => {
+    index = (index + 1) % frames.length;
+    images.forEach((image) => image.classList.add("is-blinking"));
+    setTimeout(() => {
+      images.forEach((image) => {
+        image.src = frames[index];
+        image.classList.remove("is-blinking");
+      });
+    }, 150);
+  };
+  setInterval(changeFrame, 2600);
+}
