@@ -16,6 +16,7 @@
   --bad: #b42318;
   --warn: #9a5b00;
   --sidebar: 268px;
+  --sidebar-compact: 76px;
   --topbar: 64px;
   --radius: 8px;
   --text: 16px;
@@ -82,6 +83,15 @@ svg {
   display: grid;
   grid-template-columns: var(--sidebar) minmax(0, 1fr);
   min-height: 100vh;
+  transition: grid-template-columns .22s ease;
+}
+
+:root.sidebar-compact .app-shell {
+  grid-template-columns: var(--sidebar-compact) minmax(0, 1fr);
+}
+
+:root.sidebar-hidden .app-shell {
+  grid-template-columns: 0 minmax(0, 1fr);
 }
 
 .sidebar {
@@ -95,6 +105,17 @@ svg {
   flex-direction: column;
   gap: 12px;
   overflow-y: auto;
+  transition: width .22s ease, transform .22s ease, padding .22s ease;
+}
+
+:root.sidebar-hidden .sidebar {
+  transform: translateX(-105%);
+  pointer-events: none;
+}
+
+:root.sidebar-compact .sidebar {
+  padding: 14px 8px;
+  align-items: center;
 }
 
 .brand {
@@ -105,6 +126,11 @@ svg {
   justify-items: start;
 }
 
+:root.sidebar-compact .brand {
+  padding: 4px 0 10px;
+  justify-items: center;
+}
+
 .brand img {
   width: 236px;
   max-width: 100%;
@@ -112,10 +138,21 @@ svg {
   object-fit: contain;
 }
 
+:root.sidebar-compact .brand img {
+  width: 48px;
+}
+
 .brand strong {
   font-size: 17px;
   line-height: 1.1;
   font-weight: 700;
+}
+
+:root.sidebar-compact .brand strong,
+:root.sidebar-compact .brand span,
+:root.sidebar-compact .sidebar-note,
+:root.sidebar-compact .nav-left span:not(:first-child) {
+  display: none;
 }
 
 .brand span {
@@ -137,6 +174,13 @@ svg {
   min-height: 42px;
   display: flex;
   align-items: center;
+}
+
+:root.sidebar-compact .nav a {
+  width: 46px;
+  min-height: 46px;
+  justify-content: center;
+  padding: 0;
 }
 
 .nav a:hover,
@@ -172,6 +216,10 @@ svg {
   align-items: center;
   gap: 9px;
   min-width: 0;
+}
+
+:root.sidebar-compact .nav-left {
+  gap: 0;
 }
 
 .nav-left span {
@@ -216,6 +264,66 @@ svg {
   border-bottom: 1px solid var(--line);
   background: color-mix(in srgb, var(--surface) 92%, transparent);
   backdrop-filter: blur(10px);
+}
+
+.sidebar-round-toggle {
+  position: fixed;
+  z-index: 65;
+  width: 36px;
+  height: 36px;
+  border: 1px solid var(--vk-strong);
+  border-radius: 50%;
+  background: var(--vk);
+  color: #ffffff;
+  display: grid;
+  place-items: center;
+  cursor: pointer;
+  box-shadow: 0 10px 26px rgba(0, 0, 0, .18);
+}
+
+.sidebar-round-toggle span {
+  font-size: 28px;
+  line-height: 1;
+  transform: translateY(-1px);
+}
+
+.sidebar-compact-toggle {
+  top: 14px;
+  left: 14px;
+}
+
+.sidebar-hidden-toggle {
+  top: 14px;
+  right: 14px;
+}
+
+.intro-modal {
+  position: fixed;
+  z-index: 120;
+  inset: 0;
+  display: grid;
+  place-items: center;
+  padding: 18px;
+  background: rgba(0, 0, 0, .42);
+}
+
+.intro-card {
+  width: min(760px, 100%);
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  background: var(--surface);
+  color: var(--ink);
+  padding: 22px;
+  box-shadow: 0 24px 70px rgba(0, 0, 0, .24);
+  display: grid;
+  gap: 16px;
+}
+
+.intro-card p {
+  margin: 0;
+  color: var(--ink);
+  line-height: 1.55;
+  font-size: 18px;
 }
 
 .tool-row,
@@ -802,6 +910,135 @@ a:focus-visible {
   padding-left: 42px;
 }
 
+.learning-stats {
+  display: grid;
+  grid-template-columns: repeat(5, minmax(0, 1fr));
+  gap: 10px;
+  margin: 0 0 14px;
+}
+
+.stat-card {
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  background: var(--surface);
+  padding: 12px;
+  display: grid;
+  gap: 4px;
+}
+
+.stat-card strong {
+  font-size: 24px;
+  line-height: 1;
+}
+
+.stat-card span {
+  color: var(--muted);
+  font-size: 13px;
+}
+
+.track-switch {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 10px;
+  margin: 0 0 14px;
+}
+
+.track-card {
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  background: var(--surface);
+  color: var(--ink);
+  padding: 14px;
+  text-align: left;
+  cursor: pointer;
+  display: grid;
+  gap: 6px;
+}
+
+.track-card.active {
+  border-color: var(--vk);
+  box-shadow: inset 0 0 0 1px var(--vk);
+}
+
+.track-card strong {
+  font-size: 18px;
+}
+
+.track-card span {
+  color: var(--muted);
+  line-height: 1.4;
+}
+
+.track-panel {
+  display: none;
+}
+
+.track-panel.active {
+  display: block;
+}
+
+.program-note {
+  border: 1px solid var(--line);
+  border-left: 4px solid var(--vk);
+  border-radius: var(--radius);
+  background: var(--surface);
+  padding: 12px;
+  margin: 0 0 14px;
+  color: var(--muted);
+  line-height: 1.45;
+}
+
+.module-card.learning-module {
+  grid-template-columns: minmax(0, 1fr);
+}
+
+.lesson-list {
+  margin: 12px 0 0;
+  padding-left: 22px;
+  color: var(--muted);
+  line-height: 1.5;
+}
+
+.lesson-list li {
+  margin: 5px 0;
+}
+
+.library-tabs {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 10px;
+  margin-bottom: 14px;
+}
+
+.library-card {
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  background: var(--surface);
+  padding: 14px;
+  display: grid;
+  gap: 8px;
+}
+
+.library-card h3 {
+  margin: 0;
+  font-size: 18px;
+}
+
+.library-card p,
+.library-card li {
+  color: var(--muted);
+  line-height: 1.45;
+}
+
+.library-card p {
+  margin: 0;
+}
+
+.library-card ul {
+  margin: 0;
+  padding-left: 20px;
+}
+
 .learning-road::before {
   content: "";
   position: absolute;
@@ -1065,6 +1302,28 @@ a:focus-visible {
 }
 
 @media (max-width: 920px) {
+  :root.sidebar-compact .app-shell,
+  :root.sidebar-hidden .app-shell {
+    grid-template-columns: 1fr;
+  }
+
+  .sidebar-round-toggle {
+    display: none;
+  }
+
+  .intro-card p {
+    font-size: 16px;
+  }
+
+  .learning-stats {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .track-switch,
+  .library-tabs {
+    grid-template-columns: 1fr;
+  }
+
   .app-shell {
     grid-template-columns: 1fr;
   }
