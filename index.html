@@ -30,7 +30,7 @@
             <div class="panel-head">
               <div class="panel-title">
                 <h1>Основное окно</h1>
-                <p>Здесь пользователь выполняет задачу: пишет текст, создает изображение, видео, звук или запускает агента.</p>
+                <p>Здесь вы выполняете задачу: пишете текст, создаете изображение, видео, звук или запускаете агента.</p>
               </div>
               <button class="primary-btn">Запустить</button>
             </div>
@@ -42,12 +42,43 @@
                 <span class="field-label"><span>Что нужно сделать</span><span>можно писать как человеку</span></span>
                 <textarea id="mainPrompt" class="prompt-box" placeholder="Например: Объясни, как пользоваться ChatGPT, простыми словами для человека, который редко работает за компьютером."></textarea>
               </label>
-              <div class="quick-actions">
-                <button class="chip" data-target="#mainPrompt" data-insert="Объясни простыми словами, без сложных терминов, как выполнить эту задачу: ">Объяснить проще</button>
-                <button class="chip" data-target="#mainPrompt" data-insert="Сделай пошаговую инструкцию для новичка 40+ по теме: ">Пошаговая инструкция</button>
-                <button class="chip" data-target="#mainPrompt" data-insert="Проверь мой текст, исправь ошибки и объясни, что было изменено: ">Проверить текст</button>
-                <button class="chip" data-target="#mainPrompt" data-insert="Создай картинку по описанию, стиль спокойный и понятный: ">Создать изображение</button>
-              </div>
+              <details class="prompt-menu">
+                <summary class="prompt-menu-trigger">Подсказки и шаблоны</summary>
+                <div class="prompt-menu-panel">
+                  <div class="prompt-topic">
+                    <button type="button">Объяснить проще</button>
+                    <div class="prompt-submenu">
+                      <button type="button" data-target="#mainPrompt" data-insert="Объясни простыми словами, без сложных терминов, как выполнить эту задачу: ">Простыми словами</button>
+                      <button type="button" data-target="#mainPrompt" data-insert="Объясни это на бытовом примере для человека 40+: ">Бытовой пример</button>
+                      <button type="button" data-target="#mainPrompt" data-insert="Сократи объяснение до 5 понятных пунктов: ">5 пунктов</button>
+                    </div>
+                  </div>
+                  <div class="prompt-topic">
+                    <button type="button">Инструкция</button>
+                    <div class="prompt-submenu">
+                      <button type="button" data-target="#mainPrompt" data-insert="Сделай пошаговую инструкцию для новичка 40+ по теме: ">Пошагово</button>
+                      <button type="button" data-target="#mainPrompt" data-insert="Сначала задай мне 3 уточняющих вопроса, а потом составь план действий по теме: ">С вопросами</button>
+                      <button type="button" data-target="#mainPrompt" data-insert="Разбей задачу на маленькие шаги, чтобы я мог выполнить их по одному: ">Маленькие шаги</button>
+                    </div>
+                  </div>
+                  <div class="prompt-topic">
+                    <button type="button">Текст</button>
+                    <div class="prompt-submenu">
+                      <button type="button" data-target="#mainPrompt" data-insert="Проверь мой текст, исправь ошибки и объясни, что было изменено: ">Проверить текст</button>
+                      <button type="button" data-target="#mainPrompt" data-insert="Перепиши текст спокойнее, яснее и без рекламных преувеличений: ">Сделать спокойнее</button>
+                      <button type="button" data-target="#mainPrompt" data-insert="Сделай текст короче и оставь только главное: ">Сократить</button>
+                    </div>
+                  </div>
+                  <div class="prompt-topic">
+                    <button type="button">Изображение</button>
+                    <div class="prompt-submenu">
+                      <button type="button" data-target="#mainPrompt" data-insert="Создай картинку по описанию, стиль спокойный и понятный: ">Создать картинку</button>
+                      <button type="button" data-target="#mainPrompt" data-insert="Составь подробный промпт для генерации изображения: объект, стиль, фон, свет, формат. Тема: ">Промпт для картинки</button>
+                      <button type="button" data-target="#mainPrompt" data-insert="Предложи 5 вариантов визуальной идеи для изображения по теме: ">5 визуальных идей</button>
+                    </div>
+                  </div>
+                </div>
+              </details>
               <label>
                 <span class="field-label"><span>Ответ нейросети</span><span>демо-поле</span></span>
                 <textarea class="answer-box" placeholder="Здесь появится результат. В будущем сюда подключаются API выбранной нейросети."></textarea>
@@ -56,16 +87,15 @@
           </div>
           <aside class="panel">
             <div class="panel-head">
-              <div class="panel-title">
-                <h2>Помощник рядом</h2>
-                <p>Узкое окно справа объясняет, что делать, и может подготовить запрос для основного окна.</p>
+              <div class="panel-title assistant-title">
+                <div class="assistant-heading">
+                  <h2>Помощник рядом</h2>
+                  <span class="droid-avatar"><img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///ywAAAAAAQABAAACAUwAOw==" alt="" data-droid-face></span>
+                </div>
+                <p>Это ваш помощник: он следит за процессом и отвечает на вопросы о работе, которая проходит в основном окне.</p>
               </div>
             </div>
             <div class="assistant-feed">
-              <div class="message">
-                <strong>Подсказка</strong>
-                Если человек растерялся, помощник предлагает следующий маленький шаг и объясняет экран без сложных слов.
-              </div>
               <div class="chips">
                 <button class="chip" data-helper="start">С чего начать?</button>
                 <button class="chip" data-helper="file">Как загрузить файл?</button>
@@ -80,6 +110,10 @@
                 <span class="field-label"><span>Вопрос помощнику</span><span>без сложных терминов</span></span>
                 <textarea class="helper-box" placeholder="Например: Я не понимаю, чем отличается текстовая нейросеть от графической."></textarea>
               </label>
+              <div class="message">
+                <strong>Подсказка</strong>
+                Если вы растерялись, помощник предложит следующий маленький шаг и объяснит экран без сложных слов.
+              </div>
             </div>
           </aside>
         </section>
