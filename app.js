@@ -1,6 +1,6 @@
 const root = document.documentElement;
 const transparentPixel = "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///ywAAAAAAQABAAACAUwAOw==";
-const surveyUrl = "https://docs.google.com/forms/d/e/PASTE_FORM_ID/viewform";
+const surveyUrl = "https://docs.google.com/forms/d/e/1FAIpQLSdUu3UJhadGg0RhgjeJwOiPFABn2hnbUCYSqdb7O34ftx3aGg/viewform";
 
 const currentPage = location.pathname.split("/").pop() || "index.html";
 
