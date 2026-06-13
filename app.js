@@ -11,7 +11,7 @@ const navItems = [
   { href: "catalog.html", label: "Каталог AI", icon: "grid" },
   { href: "telegram-bot.html", label: "Telegram бот", icon: "send" },
   { href: "max-bot.html", label: "MAX бот", icon: "message" },
-  { href: "prompts.html", label: "Библиотека промптов", icon: "library" },
+  { href: "prompts.html", label: "Библиотеки", icon: "library" },
   { href: "terminology.html", label: "AI-терминология", icon: "book" },
   { href: "payment.html", label: "Оплата", icon: "wallet" },
   { href: "settings.html", label: "Настройки", icon: "settings" },
@@ -262,10 +262,14 @@ function setupPrefs() {
   const savedTheme = localStorage.getItem("ai-school-theme");
   const savedLarge = localStorage.getItem("ai-school-large");
   const savedSimple = localStorage.getItem("ai-school-simple");
+  const savedCompact = localStorage.getItem("ai-school-sidebar-compact");
+  const savedHidden = localStorage.getItem("ai-school-sidebar-hidden");
   const advisor = localStorage.getItem("ai-school-advisor") || "beginner";
   if (savedTheme === "dark") root.classList.add("dark");
   if (savedLarge === "true") root.classList.add("large");
   if (savedSimple === "true") root.classList.add("simple");
+  if (savedCompact === "true") root.classList.add("sidebar-compact");
+  if (savedHidden === "true") root.classList.add("sidebar-hidden");
   root.dataset.advisor = advisor;
 }
 
@@ -289,6 +293,54 @@ function renderSidebar() {
     <div class="sidebar-note"><strong>Совет</strong><span id="randomTip"></span></div>
   `;
   rotateTip();
+}
+
+function renderLayoutControls() {
+  if (!document.querySelector("[data-sidebar-compact-toggle]")) {
+    const compact = document.createElement("button");
+    compact.className = "sidebar-round-toggle sidebar-compact-toggle";
+    compact.type = "button";
+    compact.setAttribute("data-sidebar-compact-toggle", "");
+    compact.setAttribute("aria-label", "Свернуть меню до иконок");
+    compact.innerHTML = '<span aria-hidden="true">‹</span>';
+    document.body.append(compact);
+  }
+  if (!document.querySelector("[data-sidebar-hidden-toggle]")) {
+    const hidden = document.createElement("button");
+    hidden.className = "sidebar-round-toggle sidebar-hidden-toggle";
+    hidden.type = "button";
+    hidden.setAttribute("data-sidebar-hidden-toggle", "");
+    hidden.setAttribute("aria-label", "Скрыть боковое меню");
+    hidden.innerHTML = '<span aria-hidden="true">‹</span>';
+    document.body.append(hidden);
+  }
+  updateSidebarToggleIcons();
+}
+
+function updateSidebarToggleIcons() {
+  const compact = document.querySelector("[data-sidebar-compact-toggle]");
+  const hidden = document.querySelector("[data-sidebar-hidden-toggle]");
+  if (compact) {
+    compact.innerHTML = root.classList.contains("sidebar-compact") ? '<span aria-hidden="true">›</span>' : '<span aria-hidden="true">‹</span>';
+  }
+  if (hidden) {
+    hidden.innerHTML = root.classList.contains("sidebar-hidden") ? '<span aria-hidden="true">›</span>' : '<span aria-hidden="true">‹</span>';
+  }
+}
+
+function renderIntroModal() {
+  if (sessionStorage.getItem("prompta-intro-closed") === "true") return;
+  const modal = document.createElement("div");
+  modal.className = "intro-modal";
+  modal.setAttribute("role", "dialog");
+  modal.setAttribute("aria-modal", "true");
+  modal.innerHTML = `
+    <div class="intro-card">
+      <p>Друзья, привет! 👋 Это Сергей Бежаев, создатель ИИ-агрегатора "Prompta". Я запускаю первые тесты SA-v.01/01 — будущей платформы, которая поможет людям проще знакомиться с нейросетями, основной наш уклон идёт на более старшую аудиторию 🤖 Пока это только прототип: функции ещё недоступны, но вы уже можете посмотреть интерфейс и подсказать, что улучшить, если пройдёте опрос по кнопке находящейся в меню слева ❤️</p>
+      <button class="primary-btn" type="button" data-intro-close>Удачи Беж</button>
+    </div>
+  `;
+  document.body.append(modal);
 }
 
 function renderMobileMenuButton() {
@@ -357,6 +409,41 @@ function bindControls() {
       button.closest(".prompt-menu")?.removeAttribute("open");
   });
 
+  document.querySelectorAll("[data-sidebar-compact-toggle]").forEach((button) => {
+    button.addEventListener("click", () => {
+      root.classList.remove("sidebar-hidden");
+      root.classList.toggle("sidebar-compact");
+      localStorage.setItem("ai-school-sidebar-compact", String(root.classList.contains("sidebar-compact")));
+      localStorage.setItem("ai-school-sidebar-hidden", "false");
+      updateSidebarToggleIcons();
+    });
+  });
+
+  document.querySelectorAll("[data-sidebar-hidden-toggle]").forEach((button) => {
+    button.addEventListener("click", () => {
+      root.classList.remove("sidebar-compact");
+      root.classList.toggle("sidebar-hidden");
+      localStorage.setItem("ai-school-sidebar-hidden", String(root.classList.contains("sidebar-hidden")));
+      localStorage.setItem("ai-school-sidebar-compact", "false");
+      updateSidebarToggleIcons();
+    });
+  });
+
+  document.querySelectorAll("[data-intro-close]").forEach((button) => {
+    button.addEventListener("click", () => {
+      sessionStorage.setItem("prompta-intro-closed", "true");
+      button.closest(".intro-modal")?.remove();
+    });
+  });
+
+  document.querySelectorAll("[data-learning-track]").forEach((button) => {
+    button.addEventListener("click", () => {
+      const target = button.dataset.learningTrack;
+      document.querySelectorAll("[data-learning-track]").forEach((node) => node.classList.toggle("active", node === button));
+      document.querySelectorAll("[data-track-panel]").forEach((panel) => panel.classList.toggle("active", panel.dataset.trackPanel === target));
+    });
+  });
+
   document.querySelectorAll("[data-mobile-menu-toggle]").forEach((button) => {
     button.addEventListener("click", () => root.classList.add("menu-open"));
   });
@@ -380,6 +467,56 @@ function bindControls() {
       root.dataset.advisor = input.value;
       localStorage.setItem("ai-school-advisor", input.value);
     });
+  });
+}
+
+function setupLearningTimer() {
+  const totalKey = "ai-school-active-seconds";
+  const lastKey = "ai-school-last-activity";
+  const lastTickKey = "ai-school-last-tick";
+  const idleLimit = 20 * 60 * 1000;
+  const now = Date.now();
+  if (!localStorage.getItem(lastKey)) localStorage.setItem(lastKey, String(now));
+  if (!localStorage.getItem(lastTickKey)) localStorage.setItem(lastTickKey, String(now));
+
+  const markActive = () => localStorage.setItem(lastKey, String(Date.now()));
+  ["click", "keydown", "pointerdown", "input"].forEach((eventName) => {
+    document.addEventListener(eventName, markActive, { passive: true });
+  });
+
+  const tick = () => {
+    const current = Date.now();
+    const lastActivity = Number(localStorage.getItem(lastKey) || current);
+    const lastTick = Number(localStorage.getItem(lastTickKey) || current);
+    if (current - lastActivity <= idleLimit) {
+      const add = Math.max(0, Math.min(60, Math.round((current - lastTick) / 1000)));
+      const total = Number(localStorage.getItem(totalKey) || 0) + add;
+      localStorage.setItem(totalKey, String(total));
+    }
+    localStorage.setItem(lastTickKey, String(current));
+    renderLearningStats();
+  };
+
+  tick();
+  setInterval(tick, 60000);
+}
+
+function renderLearningStats() {
+  const total = Number(localStorage.getItem("ai-school-active-seconds") || 0);
+  const hours = Math.floor(total / 3600);
+  const days = Math.floor(hours / 24);
+  const weeks = Math.floor(days / 7);
+  const remainingDays = days % 7;
+  const remainingHours = hours % 24;
+  const values = {
+    progress: "18%",
+    score: "82%",
+    weeks: `${weeks} нед.`,
+    days: `${remainingDays} дн.`,
+    hours: `${remainingHours} ч.`
+  };
+  document.querySelectorAll("[data-learning-stat]").forEach((node) => {
+    node.textContent = values[node.dataset.learningStat] || "";
   });
 }
 
@@ -566,10 +703,13 @@ function bindHelper() {
 
 setupPrefs();
 renderSidebar();
+renderLayoutControls();
 renderMobileMenuButton();
+renderIntroModal();
 bindControls();
 renderCatalog();
 bindHelper();
+setupLearningTimer();
 loadDroidFrames(setupDroid);
 
 function loadDroidFrames(callback) {
