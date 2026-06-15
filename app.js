@@ -717,7 +717,7 @@ function bindWorkspaceChat() {
   const providerSelect = document.querySelector("#providerSelect");
   if (!runButton || !promptBox || !answerBox) return;
 
-  runButton.addEventListener("click", async () => {
+  const sendPrompt = async () => {
     const prompt = promptBox.value.trim();
     if (!prompt) {
       setOutput(answerBox, "Напишите задачу в поле выше. Можно обычными словами, как человеку.");
@@ -758,6 +758,14 @@ function bindWorkspaceChat() {
       runButton.disabled = false;
       runButton.textContent = "Запустить";
     }
+  };
+
+  runButton.addEventListener("click", sendPrompt);
+
+  promptBox.addEventListener("keydown", (event) => {
+    if (event.key !== "Enter" || event.shiftKey || event.isComposing) return;
+    event.preventDefault();
+    if (!runButton.disabled) sendPrompt();
   });
 }
 
