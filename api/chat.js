@@ -28,7 +28,7 @@ module.exports = async function handler(req, res) {
       return;
     }
 
-    const selected = chooseProvider(provider);
+    const candidates = chooseProviders(provider);
     const system = [
       "Ты помощник платформы Prompta для пользователей 40+.",
       "Отвечай по-русски, спокойно, простыми словами.",
@@ -36,7 +36,7 @@ module.exports = async function handler(req, res) {
       "Не проси отправлять пароли, коды, паспортные данные и банковские реквизиты."
     ].join(" ");
 
-    const result = await callProvider(selected, system, prompt);
+    const { selected, result } = await callFirstAvailableProvider(candidates, system, prompt, provider === "auto");
     res.status(200).json({
       ok: true,
       provider: selected,
@@ -72,19 +72,33 @@ function readJson(req) {
   });
 }
 
-function chooseProvider(requested) {
+function chooseProviders(requested) {
   if (requested && requested !== "auto") {
     if (!providerConfig[requested]) throw new Error("Такой провайдер пока не подключен.");
     assertProviderReady(requested);
-    return requested;
+    return [requested];
   }
 
   const order = ["groq", "openrouter", "huggingface", "gigachat", "yandex"];
-  const selected = order.find((provider) => isProviderReady(provider));
-  if (!selected) {
+  const selected = order.filter((provider) => isProviderReady(provider));
+  if (!selected.length) {
     throw new Error("Ключи ещё не добавлены в Vercel. Добавьте переменные окружения из .env.example.");
   }
   return selected;
+}
+
+async function callFirstAvailableProvider(candidates, system, prompt, allowFallback) {
+  const errors = [];
+  for (const candidate of candidates) {
+    try {
+      const result = await callProvider(candidate, system, prompt);
+      return { selected: candidate, result };
+    } catch (error) {
+      errors.push(`${providerConfig[candidate]?.label || candidate}: ${error.message || "ошибка"}`);
+      if (!allowFallback) break;
+    }
+  }
+  throw new Error(`Провайдеры не смогли ответить. ${errors.join(" | ")}`);
 }
 
 function isProviderReady(provider) {
