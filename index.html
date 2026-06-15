@@ -4,7 +4,7 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Рабочее окно - ai school</title>
-  <link rel="stylesheet" href="styles.css?v=20260613-controls2">
+  <link rel="stylesheet" href="styles.css?v=20260615-api">
 </head>
 <body>
   <div class="app-shell">
@@ -12,7 +12,17 @@
     <main class="content">
       <header class="topbar">
         <div class="tool-row" aria-label="Инструменты">
-          <button class="tool-btn">Модель: помощник</button>
+          <label class="tool-select-label">
+            <span>ИИ-сервис</span>
+            <select id="providerSelect" class="tool-select" aria-label="Выбор ИИ-сервиса">
+              <option value="auto">Авто</option>
+              <option value="groq">Groq</option>
+              <option value="openrouter">OpenRouter</option>
+              <option value="huggingface">Hugging Face</option>
+              <option value="gigachat">GigaChat</option>
+              <option value="yandex">YandexGPT</option>
+            </select>
+          </label>
           <button class="tool-btn">Формат: пошагово</button>
           <button class="tool-btn">Шаблоны</button>
           <button class="tool-btn">История</button>
@@ -32,7 +42,7 @@
                 <h1>Основное окно</h1>
                 <p>Здесь вы выполняете задачу: пишете текст, создаете изображение, видео, звук или запускаете агента.</p>
               </div>
-              <button class="primary-btn">Запустить</button>
+              <button class="primary-btn" data-run-main>Запустить</button>
             </div>
             <div class="coach-mark simple-only">
               Сначала выберите цель. Потом напишите обычными словами, что нужно получить. Правое окно поможет улучшить запрос.
@@ -81,7 +91,7 @@
               </details>
               <label>
                 <span class="field-label"><span>Ответ нейросети</span><span>демо-поле</span></span>
-                <textarea class="answer-box" placeholder="Здесь появится результат. В будущем сюда подключаются API выбранной нейросети."></textarea>
+                <div id="mainAnswer" class="answer-box readonly-output" role="region" aria-live="polite">Здесь появится ответ нейросети. Вы не печатаете в этом поле: оно только показывает результат, ссылки и подсказки.</div>
               </label>
             </div>
           </div>
@@ -105,7 +115,7 @@
               </div>
               <label>
                 <span class="field-label"><span>Ответ помощника</span><span>встроенная поддержка</span></span>
-                <textarea id="helperAnswer" class="helper-box" placeholder="Нажмите подсказку выше или спросите помощника своими словами."></textarea>
+                <div id="helperAnswer" class="helper-box readonly-output" role="region" aria-live="polite">Нажмите подсказку выше или спросите помощника своими словами. Ответ появится здесь.</div>
               </label>
               <label>
                 <span class="field-label"><span>Вопрос помощнику</span><span>без сложных терминов</span></span>
@@ -121,6 +131,6 @@
       </div>
     </main>
   </div>
-  <script src="app.js?v=20260613-controls2"></script>
+  <script src="app.js?v=20260615-api"></script>
 </body>
 </html>
