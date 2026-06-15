@@ -4,7 +4,7 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Рабочее окно - ai school</title>
-  <link rel="stylesheet" href="styles.css?v=20260615-api">
+  <link rel="stylesheet" href="styles.css?v=20260615-prompts">
 </head>
 <body>
   <div class="app-shell">
@@ -42,7 +42,6 @@
                 <h1>Основное окно</h1>
                 <p>Здесь вы выполняете задачу: пишете текст, создаете изображение, видео, звук или запускаете агента.</p>
               </div>
-              <button class="primary-btn" data-run-main>Запустить</button>
             </div>
             <div class="coach-mark simple-only">
               Сначала выберите цель. Потом напишите обычными словами, что нужно получить. Правое окно поможет улучшить запрос.
@@ -52,43 +51,68 @@
                 <span class="field-label"><span>Что нужно сделать</span><span>можно писать как человеку</span></span>
                 <textarea id="mainPrompt" class="prompt-box" placeholder="Например: Объясни, как пользоваться ChatGPT, простыми словами для человека, который редко работает за компьютером."></textarea>
               </label>
-              <details class="prompt-menu">
-                <summary class="prompt-menu-trigger">Подсказки и шаблоны</summary>
-                <div class="prompt-menu-panel">
-                  <div class="prompt-topic">
-                    <button type="button">Объяснить проще</button>
-                    <div class="prompt-submenu">
-                      <button type="button" data-target="#mainPrompt" data-insert="Объясни простыми словами, без сложных терминов, как выполнить эту задачу: ">Простыми словами</button>
-                      <button type="button" data-target="#mainPrompt" data-insert="Объясни это на бытовом примере для человека 40+: ">Бытовой пример</button>
-                      <button type="button" data-target="#mainPrompt" data-insert="Сократи объяснение до 5 понятных пунктов: ">5 пунктов</button>
+              <div class="prompt-actions">
+                <button class="primary-btn" data-run-main>Запустить</button>
+                <details class="prompt-menu">
+                  <summary class="prompt-menu-trigger">Подсказки и шаблоны</summary>
+                  <div class="prompt-menu-panel">
+                    <div class="prompt-builder-intro">
+                      <strong>Конструктор запроса</strong>
+                      <span>Выберите готовую основу. Она появится в поле выше, а вы замените слова в квадратных скобках на свою задачу.</span>
+                    </div>
+                    <div class="prompt-builder-grid">
+                      <section class="prompt-group">
+                        <h3>Разобраться с нуля</h3>
+                        <div class="prompt-options">
+                          <button type="button" data-target="#mainPrompt" data-insert="Объясни простыми словами для человека 40+, который только начинает. Тема: [впишите тему]. Дай ответ без сложных терминов, с бытовым примером и 5 короткими шагами.">Простое объяснение</button>
+                          <button type="button" data-target="#mainPrompt" data-insert="Составь пошаговую инструкцию для новичка. Что нужно сделать: [впишите задачу]. Пиши так, будто я вижу этот экран впервые. После каждого шага добавь, что должно получиться.">Пошаговая инструкция</button>
+                          <button type="button" data-target="#mainPrompt" data-insert="Задай мне 3 простых уточняющих вопроса по задаче: [впишите задачу]. После моих ответов составь понятный план действий.">Сначала вопросы</button>
+                        </div>
+                      </section>
+                      <section class="prompt-group">
+                        <h3>Текст и документы</h3>
+                        <div class="prompt-options">
+                          <button type="button" data-target="#mainPrompt" data-insert="Проверь текст ниже: исправь ошибки, сделай его понятнее и объясни главные правки простыми словами. Текст: [вставьте текст].">Проверить текст</button>
+                          <button type="button" data-target="#mainPrompt" data-insert="Напиши спокойный и понятный текст для [кого]. Цель текста: [цель]. Стиль: без давления, без сложных слов, с чёткой структурой.">Написать текст</button>
+                          <button type="button" data-target="#mainPrompt" data-insert="Сократи текст ниже до главного. Оставь смысл, убери лишнее, сделай список из 5 пунктов. Текст: [вставьте текст].">Сократить</button>
+                        </div>
+                      </section>
+                      <section class="prompt-group">
+                        <h3>Работа и офис</h3>
+                        <div class="prompt-options">
+                          <button type="button" data-target="#mainPrompt" data-insert="Помоги решить офисную задачу: [опишите задачу]. Дай результат в виде таблицы с колонками: шаг, что сделать, зачем это нужно, результат.">План работы</button>
+                          <button type="button" data-target="#mainPrompt" data-insert="Объясни, как сделать это в Excel или Google Таблицах: [впишите задачу]. Дай инструкцию для базового пользователя, без сложных формул, если можно.">Таблицы</button>
+                          <button type="button" data-target="#mainPrompt" data-insert="Подготовь структуру презентации на тему: [тема]. Аудитория: [кто будет смотреть]. Сделай 7 слайдов: заголовок, главная мысль, что показать на слайде.">Презентация</button>
+                        </div>
+                      </section>
+                      <section class="prompt-group">
+                        <h3>Картинки и дизайн</h3>
+                        <div class="prompt-options">
+                          <button type="button" data-target="#mainPrompt" data-insert="Составь подробный промпт для генерации изображения. Что нужно изобразить: [объект/сцена]. Стиль: [реализм/иллюстрация/деловой]. Укажи фон, свет, детали и что нельзя добавлять.">Промпт для картинки</button>
+                          <button type="button" data-target="#mainPrompt" data-insert="Предложи 5 идей для изображения на тему: [тема]. Для каждой идеи напиши: что в кадре, какой стиль, где можно использовать.">Идеи изображений</button>
+                          <button type="button" data-target="#mainPrompt" data-insert="Помоги улучшить описание картинки: [описание]. Сделай его точнее для нейросети: объект, стиль, фон, композиция, цвет, качество.">Улучшить описание</button>
+                        </div>
+                      </section>
+                      <section class="prompt-group">
+                        <h3>Видео и звук</h3>
+                        <div class="prompt-options">
+                          <button type="button" data-target="#mainPrompt" data-insert="Составь сценарий короткого видео на тему: [тема]. Длительность: [30/60/90 секунд]. Дай структуру: кадр, что видно, текст за кадром, подсказка для генерации видео.">Сценарий видео</button>
+                          <button type="button" data-target="#mainPrompt" data-insert="Напиши текст для озвучки простыми словами. Тема: [тема]. Тон: спокойный, уверенный, понятный. Длина: примерно [укажите время].">Текст для озвучки</button>
+                          <button type="button" data-target="#mainPrompt" data-insert="Подготовь промпт для создания музыки или звукового фона. Настроение: [спокойное/деловое/энергичное]. Где будет использоваться: [ролик/презентация/подкаст].">Музыка и фон</button>
+                        </div>
+                      </section>
+                      <section class="prompt-group">
+                        <h3>Безопасность и проверка</h3>
+                        <div class="prompt-options">
+                          <button type="button" data-target="#mainPrompt" data-insert="Проверь, нет ли в моём тексте лишних личных данных, которые нельзя отправлять в нейросеть. Текст: [вставьте текст]. Объясни, что лучше удалить или заменить.">Личные данные</button>
+                          <button type="button" data-target="#mainPrompt" data-insert="Проверь мой ответ или план на ошибки и риски. Тема: [тема]. Укажи, где можно ошибиться, и как сделать безопаснее.">Проверить риски</button>
+                          <button type="button" data-target="#mainPrompt" data-insert="Сделай итоговый чек-лист перед отправкой или публикацией. Материал: [описание]. Чек-лист должен быть коротким и понятным.">Чек-лист</button>
+                        </div>
+                      </section>
                     </div>
                   </div>
-                  <div class="prompt-topic">
-                    <button type="button">Инструкция</button>
-                    <div class="prompt-submenu">
-                      <button type="button" data-target="#mainPrompt" data-insert="Сделай пошаговую инструкцию для новичка 40+ по теме: ">Пошагово</button>
-                      <button type="button" data-target="#mainPrompt" data-insert="Сначала задай мне 3 уточняющих вопроса, а потом составь план действий по теме: ">С вопросами</button>
-                      <button type="button" data-target="#mainPrompt" data-insert="Разбей задачу на маленькие шаги, чтобы я мог выполнить их по одному: ">Маленькие шаги</button>
-                    </div>
-                  </div>
-                  <div class="prompt-topic">
-                    <button type="button">Текст</button>
-                    <div class="prompt-submenu">
-                      <button type="button" data-target="#mainPrompt" data-insert="Проверь мой текст, исправь ошибки и объясни, что было изменено: ">Проверить текст</button>
-                      <button type="button" data-target="#mainPrompt" data-insert="Перепиши текст спокойнее, яснее и без рекламных преувеличений: ">Сделать спокойнее</button>
-                      <button type="button" data-target="#mainPrompt" data-insert="Сделай текст короче и оставь только главное: ">Сократить</button>
-                    </div>
-                  </div>
-                  <div class="prompt-topic">
-                    <button type="button">Изображение</button>
-                    <div class="prompt-submenu">
-                      <button type="button" data-target="#mainPrompt" data-insert="Создай картинку по описанию, стиль спокойный и понятный: ">Создать картинку</button>
-                      <button type="button" data-target="#mainPrompt" data-insert="Составь подробный промпт для генерации изображения: объект, стиль, фон, свет, формат. Тема: ">Промпт для картинки</button>
-                      <button type="button" data-target="#mainPrompt" data-insert="Предложи 5 вариантов визуальной идеи для изображения по теме: ">5 визуальных идей</button>
-                    </div>
-                  </div>
-                </div>
-              </details>
+                </details>
+              </div>
               <label>
                 <span class="field-label"><span>Ответ нейросети</span><span>демо-поле</span></span>
                 <div id="mainAnswer" class="answer-box readonly-output" role="region" aria-live="polite">Здесь появится ответ нейросети. Вы не печатаете в этом поле: оно только показывает результат, ссылки и подсказки.</div>
@@ -131,6 +155,6 @@
       </div>
     </main>
   </div>
-  <script src="app.js?v=20260615-api"></script>
+  <script src="app.js?v=20260615-prompts"></script>
 </body>
 </html>
