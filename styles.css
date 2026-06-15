@@ -341,7 +341,9 @@ svg {
 .ghost-btn,
 .chip,
 .tab,
-.icon-btn {
+.icon-btn,
+.tool-select-label,
+.tool-select {
   border: 1px solid var(--line);
   border-radius: var(--radius);
   background: var(--surface);
@@ -358,6 +360,27 @@ svg {
   padding: 0;
   display: grid;
   place-items: center;
+}
+
+.tool-select-label {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  min-height: 40px;
+  padding: 5px 8px 5px 10px;
+}
+
+.tool-select-label span {
+  color: var(--muted);
+  font-size: 13px;
+}
+
+.tool-select {
+  min-height: 30px;
+  padding: 3px 28px 3px 8px;
+  border-color: transparent;
+  background: var(--bg);
+  cursor: pointer;
 }
 
 .tool-btn:hover,
@@ -528,6 +551,26 @@ a:focus-visible {
 
 .helper-box {
   min-height: 150px;
+}
+
+.readonly-output {
+  width: 100%;
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  background: var(--bg);
+  color: var(--ink);
+  padding: 12px;
+  resize: none;
+  overflow: auto;
+  white-space: pre-wrap;
+  line-height: 1.5;
+  cursor: default;
+}
+
+.readonly-output a {
+  color: var(--vk-strong);
+  text-decoration: underline;
+  text-underline-offset: 3px;
 }
 
 .chip {
@@ -753,6 +796,40 @@ a:focus-visible {
   margin: 0;
   font-size: 28px;
   line-height: 1.15;
+}
+
+.subsection-title,
+.category-name {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.section-icon {
+  width: 28px;
+  height: 28px;
+  border: 1px solid var(--line);
+  border-radius: 50%;
+  display: inline-grid;
+  place-items: center;
+  background: var(--bg);
+  color: var(--ink);
+  flex: 0 0 auto;
+}
+
+.section-icon svg {
+  width: 17px;
+  height: 17px;
+}
+
+.large-icon {
+  width: 34px;
+  height: 34px;
+}
+
+.large-icon svg {
+  width: 20px;
+  height: 20px;
 }
 
 .section-head p {
@@ -1320,6 +1397,70 @@ a:focus-visible {
   font-weight: 800;
 }
 
+.action-row {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+  flex-wrap: wrap;
+}
+
+.instruction-steps {
+  display: grid;
+  gap: 12px;
+}
+
+.instruction-card {
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  background: var(--surface);
+  padding: 14px;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(220px, .72fr);
+  gap: 14px;
+  align-items: start;
+}
+
+.instruction-card h3 {
+  margin: 0 0 8px;
+  font-size: 19px;
+}
+
+.instruction-card p {
+  margin: 0;
+  color: var(--muted);
+  line-height: 1.45;
+}
+
+.screen-mock {
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  background: var(--bg);
+  padding: 10px;
+  display: grid;
+  gap: 8px;
+  font-size: 13px;
+}
+
+.screen-bar {
+  height: 8px;
+  border-radius: 999px;
+  background: var(--line);
+}
+
+.screen-row {
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  background: var(--surface);
+  padding: 8px;
+  line-height: 1.35;
+}
+
+.screen-row.strong {
+  border-color: var(--vk);
+  color: var(--vk-strong);
+  font-weight: 700;
+}
+
 .profile-photo-block {
   display: grid;
   gap: 12px;
@@ -1484,6 +1625,7 @@ a:focus-visible {
   .catalog-toolbar,
   .setting-row,
   .payment-grid,
+  .instruction-card,
   .two-col {
     grid-template-columns: 1fr;
   }
